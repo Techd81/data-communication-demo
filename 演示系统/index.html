@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>数据通信网络 · 智能全流程演示系统</title>
+<meta name="description" content="一种数据通信网络的数据通信方法及系统 —— 发明专利全流程交互式演示">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&family=Ma+Shan+Zheng&family=Patrick+Hand&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css?v=20250901a">
+</head>
+<body>
+
+<!-- 顶部蜡笔规范线 -->
+<div class="top-rule" aria-hidden="true"></div>
+
+<!-- 隐藏 SVG defs：手绘抖动滤镜 + 手绘箭头（供 CSS 与架构图引用） -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <filter id="sketch" x="-10%" y="-10%" width="120%" height="120%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="2" seed="7" result="n1"/>
+      <feDisplacementMap in="SourceGraphic" in2="n1" scale="3.2" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+    <filter id="rgh" x="-10%" y="-10%" width="120%" height="120%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.05" numOctaves="2" seed="5" result="n2"/>
+      <feDisplacementMap in="SourceGraphic" in2="n2" scale="2.4" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+    <marker id="hand-arrow" markerWidth="14" markerHeight="14" refX="9" refY="6" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M2,2 Q7,5.5 11,5.5 M11,5.5 Q7,5.5 2,10" fill="none" stroke="#2e3b4e" stroke-width="2" stroke-linecap="round"/>
+    </marker>
+  </defs>
+</svg>
+
+<!-- ============ 顶部导航 ============ -->
+<header class="topbar" id="topbar">
+  <div class="topbar-inner">
+    <a class="brand" href="#">
+      <svg class="brand-mark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true">
+        <path d="M5 12 a3.2 3.2 0 1 0 6.4 0 a3.2 3.2 0 1 0 -6.4 0" transform="rotate(-8 8.2 12)"/>
+        <path d="M19 5 a3.2 3.2 0 1 0 6.4 0 a3.2 3.2 0 1 0 -6.4 0" transform="rotate(10 22.2 5)"/>
+        <path d="M19 19 a3.2 3.2 0 1 0 6.4 0 a3.2 3.2 0 1 0 -6.4 0" transform="rotate(-6 22.2 19)"/>
+        <path d="M8.5 10.5 C 11 8.5, 14 6.5, 18.5 6" stroke-dasharray="0.5 4.2"/>
+        <path d="M8.6 13.4 C 11.5 15.5, 14.5 17.5, 18.6 17.6" stroke-dasharray="0.5 4.2"/>
+      </svg>
+      <span class="brand-text">数据通信网络<em>智能演示系统</em></span>
+    </a>
+    <nav class="topnav" id="topnav">
+      <a href="#overview" class="nav-link active">流程</a>
+      <a href="#demo" class="nav-link">演示</a>
+      <a href="#system" class="nav-link">算法 · 架构</a>
+    </nav>
+    <div class="topbar-status">
+      <span class="status-sq" id="status-sq" aria-hidden="true"></span>
+      <span id="topbar-status-text">演示就绪</span>
+    </div>
+    <button class="nav-toggle" id="nav-toggle" aria-label="菜单"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<main>
+<!-- ============ 01 · 方案流程总览 ============ -->
+<section id="overview" class="section">
+  <div class="container">
+    <header class="section-head reveal">
+      <h2 class="section-title"><span class="section-no">01</span>三阶段端到端数据通信流程</h2>
+      <p class="section-desc">数据预处理 → 数据编码与传输 → 数据接收与恢复，全链路智能闭环</p>
+    </header>
+    <div class="flow reveal" style="--reveal-i:1">
+      <div class="flow-stage card">
+        <span class="flow-no">01 / S1</span>
+        <h3>数据预处理</h3>
+        <p class="flow-role">数据发送端</p>
+        <ul class="flow-list">
+          <li>格式标准化：多格式 → JSON</li>
+          <li>AES 加密生成密文包 C = E(K, D)</li>
+          <li>动态密钥 K = H(I, S, T) + 定期更新</li>
+        </ul>
+        <div class="flow-out">产出：加密数据包</div>
+      </div>
+      <div class="flow-arrow" aria-hidden="true">
+        <svg width="52" height="148" viewBox="0 0 52 148" fill="none">
+          <path d="M12 6 C 44 42, 46 106, 14 138" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+          <path d="M14 138 L 4 122 M14 138 L 28 124" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+        </svg>
+        <em>编码·传输</em>
+      </div>
+      <div class="flow-stage card">
+        <span class="flow-no">02 / S2</span>
+        <h3>数据编码与传输</h3>
+        <p class="flow-role">通信网络</p>
+        <ul class="flow-list">
+          <li>自适应编码：Huffman 高效 / RS 容错</li>
+          <li>数据分块：ID + 序列号，Σs<sub>i</sub> = |P|</li>
+          <li>多路径传输：概率调度 + 故障自动切换</li>
+        </ul>
+        <div class="flow-out">产出：有序数据块流</div>
+      </div>
+      <div class="flow-arrow" aria-hidden="true">
+        <svg width="52" height="148" viewBox="0 0 52 148" fill="none">
+          <path d="M18 4 C 48 44, 44 108, 18 142" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+          <path d="M18 142 L 6 126 M18 142 L 32 128" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+        </svg>
+        <em>接收·恢复</em>
+      </div>
+      <div class="flow-stage card">
+        <span class="flow-no">03 / S3</span>
+        <h3>数据接收与恢复</h3>
+        <p class="flow-role">数据接收端</p>
+        <ul class="flow-list">
+          <li>完整性校验：H<sub>received</sub> 对比 H<sub>original</sub></li>
+          <li>按序列号排序重组 + RS 纠删恢复</li>
+          <li>解密还原 + 异常处理（超时重传）</li>
+        </ul>
+        <div class="flow-out">产出：原始数据</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 02 · 实时演示 ============ -->
+<section id="demo" class="section section-demo">
+  <div class="container container-wide">
+    <header class="section-head reveal">
+      <h2 class="section-title"><span class="section-no">02</span>实时全流程演示</h2>
+      <p class="section-desc">调节参数，观察动态密钥、自适应编码、多路径传输与异常自愈的真实运行效果</p>
+    </header>
+
+    <div class="demo-shell reveal" style="--reveal-i:1">
+      <!-- 控制台（全宽水平条 · 6 列网格） -->
+      <aside class="demo-panel panel">
+        <h3 class="panel-title">演示控制台</h3>
+        <div class="ctl-grid">
+          <div class="ctl-data">
+            <label class="ctl-label" for="input-data">数据内容 <em>D</em></label>
+            <textarea id="input-data" rows="3" spellcheck="false">{&quot;order_id&quot;:&quot;A1001&quot;,&quot;user&quot;:&quot;张三&quot;,&quot;items&quot;:[{&quot;sku&quot;:&quot;SKU-8821&quot;,&quot;name&quot;:&quot;智能终端&quot;,&quot;qty&quot;:2,&quot;price&quot;:199.00},{&quot;sku&quot;:&quot;SKU-3357&quot;,&quot;name&quot;:&quot;高速网卡&quot;,&quot;qty&quot;:1,&quot;price&quot;:299.00}],&quot;amount&quot;:697.00,&quot;channel&quot;:&quot;apiv2&quot;,&quot;remark&quot;:&quot;加急&quot;}</textarea>
+          </div>
+
+          <div class="ctl-item">
+            <div class="ctl-label-row">
+              <label class="ctl-label" for="imp-level">重要性 <em>I</em></label>
+              <output id="imp-out" class="ctl-out">3</output>
+            </div>
+            <input type="range" id="imp-level" min="1" max="5" step="1" value="3" class="range">
+            <div class="range-scale"><span>1 · 普通</span><span>3 · 中等</span><span>5 · 核心</span></div>
+          </div>
+
+          <div class="ctl-item">
+            <div class="ctl-label-row">
+              <label class="ctl-label" for="sec-level">安全指标 <em>S</em></label>
+              <output id="sec-out" class="ctl-out">0.70</output>
+            </div>
+            <input type="range" id="sec-level" min="0" max="1" step="0.05" value="0.7" class="range">
+          </div>
+
+          <div class="ctl-item">
+            <div class="ctl-label-row">
+              <label class="ctl-label" for="bw-level">带宽 <em>B</em></label>
+              <output id="bw-out" class="ctl-out">10.0</output>
+            </div>
+            <input type="range" id="bw-level" min="2" max="20" step="0.5" value="10" class="range">
+            <div class="th-hint">阈值 B<sub>th</sub> = 8 Mbps</div>
+          </div>
+
+          <div class="ctl-item">
+            <div class="ctl-label-row">
+              <label class="ctl-label" for="loss-level">丢包率 <em>L</em></label>
+              <output id="loss-out" class="ctl-out">2.0%</output>
+            </div>
+            <input type="range" id="loss-level" min="0" max="30" step="1" value="2" class="range">
+            <div class="th-hint">阈值 L<sub>th</sub> = 5%</div>
+          </div>
+
+          <div class="ctl-item">
+            <div class="ctl-label-row">
+              <label class="ctl-label" for="red-level">RS 冗余 <em>n<sub>r</sub></em></label>
+              <output id="red-out" class="ctl-out">96</output>
+            </div>
+            <input type="range" id="red-level" min="32" max="128" step="16" value="96" class="range">
+          </div>
+
+          <div class="ctl-item">
+            <div class="ctl-label-row">
+              <label class="ctl-label" for="speed-level">速度</label>
+              <output id="speed-out" class="ctl-out">1.0×</output>
+            </div>
+            <input type="range" id="speed-level" min="5" max="30" step="1" value="10" class="range">
+          </div>
+
+          <div class="ctl-path">
+            <div class="ctl-label-row"><span class="ctl-label">可用路径</span></div>
+            <div class="path-toggles" id="path-toggles">
+              <button class="path-toggle ok" data-path="0"><span class="pdot" aria-hidden="true"></span>PATH 1</button>
+              <button class="path-toggle ok" data-path="1"><span class="pdot" aria-hidden="true"></span>PATH 2</button>
+              <button class="path-toggle ok" data-path="2"><span class="pdot" aria-hidden="true"></span>PATH 3</button>
+            </div>
+          </div>
+
+          <div class="ctl-actions">
+            <div class="ctl-action-row">
+              <button class="btn btn-primary" id="btn-start">开始传输 <span class="arrow" aria-hidden="true">→</span></button>
+              <button class="btn btn-ghost btn-step" id="btn-step">单步 <span class="arrow" aria-hidden="true">→</span></button>
+              <button class="btn btn-ghost btn-square" id="btn-reset" title="重置">↺</button>
+              <button class="btn btn-ghost" id="btn-loop"><span id="loop-label">循环</span> <span class="arrow" aria-hidden="true">↻</span></button>
+            </div>
+          </div>
+
+          <div class="ctl-progress">
+            <div class="stage-progress" id="stage-progress"></div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- 可视化主舞台 -->
+      <div class="demo-stage panel">
+        <div class="stage-top">
+          <div class="stage-title">
+            <span class="stage-chip" id="stage-chip">S0</span>
+            <span id="stage-name">待命 · 配置参数后开始传输</span>
+          </div>
+          <div class="mode-badge">
+            <span class="mode-label">编码模式</span>
+            <span class="mode-value" id="mode-value">--</span>
+          </div>
+        </div>
+
+        <div class="net-meters" id="net-meters">
+          <div class="meter">
+            <span class="meter-label">带宽 B</span>
+            <div class="meter-bar"><div class="meter-fill" id="meter-bw"></div><div class="meter-th" style="left:40%"></div></div>
+            <span class="meter-val" id="meter-bw-val">10.0</span>
+          </div>
+          <div class="meter">
+            <span class="meter-label">丢包率 L</span>
+            <div class="meter-bar"><div class="meter-fill warn" id="meter-loss"></div><div class="meter-th" style="left:16.7%"></div></div>
+            <span class="meter-val" id="meter-loss-val">2%</span>
+          </div>
+          <div class="meter">
+            <span class="meter-label">RTT</span>
+            <div class="meter-bar"><div class="meter-fill" id="meter-rtt"></div></div>
+            <span class="meter-val" id="meter-rtt-val">50ms</span>
+          </div>
+        </div>
+
+        <div class="viz-wrap">
+          <canvas id="viz-canvas"></canvas>
+          <div class="viz-legend">
+            <span><i class="lg" style="background:#2e3b4e"></i>健康路径</span>
+            <span><i class="lg" style="background:#5b8dd9"></i>拥塞路径</span>
+            <span><i class="lg" style="background:#e0564f"></i>故障路径</span>
+            <span><i class="lg" style="background:#fdeeb3"></i>数据块</span>
+          </div>
+        </div>
+
+        <div class="block-strip" id="block-strip"></div>
+        <div class="result-bar" id="result-bar"></div>
+      </div>
+
+      <!-- 过程日志 -->
+      <aside class="demo-log panel">
+        <h3 class="panel-title">过程日志 <button class="log-clear" id="log-clear">清空</button></h3>
+        <div class="log-body" id="log-body">
+          <div class="log-empty">等待传输开始…</div>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 03 · 系统架构 · 核心算法 ============ -->
+<section id="system" class="section">
+  <div class="container">
+    <header class="section-head reveal">
+      <h2 class="section-title"><span class="section-no">03</span>系统架构 · 核心算法</h2>
+      <p class="section-desc">七大功能模块通过数据通信网络协同工作，核心算法以形式化公式精确刻画</p>
+    </header>
+
+    <!-- 段 1 · 系统架构总览 -->
+    <div class="seg reveal"><span class="seg-no">1</span><span class="seg-title">系统架构总览</span><span class="seg-line" aria-hidden="true"></span></div>
+    <div class="arch-svg reveal" style="--reveal-i:1">
+        <svg viewBox="0 0 900 500" role="img" aria-label="系统架构图">
+          <defs>
+            <marker id="arch-arrow" markerWidth="14" markerHeight="14" refX="9" refY="6" orient="auto" markerUnits="userSpaceOnUse">
+              <path d="M2,2 Q7,5.5 11,5.5 M11,5.5 Q7,5.5 2,10" fill="none" stroke="#2e3b4e" stroke-width="2" stroke-linecap="round"/>
+            </marker>
+          </defs>
+
+          <!-- 网络外框（手绘抖动） -->
+          <g filter="url(#rgh)">
+            <rect x="150" y="50" width="600" height="400" rx="10" fill="#fffdf6" stroke="#2e3b4e" stroke-width="2"/>
+          </g>
+          <!-- 标题便签条 -->
+          <g transform="translate(450,68) rotate(-1.5)">
+            <rect x="-140" y="-17" width="280" height="32" rx="7" fill="#fdeeb3" stroke="#2e3b4e" stroke-width="2"/>
+          </g>
+          <text x="450" y="70" text-anchor="middle" fill="#2e3b4e" font-size="15" font-weight="700" font-family="'Ma Shan Zheng','KaiTi','STKaiti',cursive" letter-spacing="4">数据通信网络</text>
+
+          <!-- 发送端 -->
+          <g filter="url(#rgh)">
+            <rect x="180" y="120" width="150" height="56" rx="9" fill="#cde6ff" stroke="#2e3b4e" stroke-width="2"/>
+          </g>
+          <text x="255" y="143" text-anchor="middle" fill="#2e3b4e" font-size="14" font-weight="700" font-family="'Ma Shan Zheng','KaiTi',cursive">发送端</text>
+          <text x="255" y="161" text-anchor="middle" fill="#5a6678" font-size="10" font-family="'KaiTi',sans-serif">数据预处理 · 编码传输</text>
+
+          <!-- 接收端 -->
+          <g filter="url(#rgh)">
+            <rect x="570" y="320" width="150" height="56" rx="9" fill="#d3efd7" stroke="#2e3b4e" stroke-width="2"/>
+          </g>
+          <text x="645" y="343" text-anchor="middle" fill="#2e3b4e" font-size="14" font-weight="700" font-family="'Ma Shan Zheng','KaiTi',cursive">接收端</text>
+          <text x="645" y="361" text-anchor="middle" fill="#5a6678" font-size="10" font-family="'KaiTi',sans-serif">数据接收与恢复</text>
+
+          <!-- 五个核心模块 -->
+          <g class="arch-mod" transform="translate(360,100)">
+            <g filter="url(#rgh)"><rect width="180" height="44" rx="8" fill="#fdeeb3" stroke="#2e3b4e" stroke-width="2"/></g>
+            <path d="M8 14 Q12 10 16 14 Q20 18 8 22 Q12 18 16 14" transform="translate(10,11) scale(1.4)" fill="#e0564f"/>
+            <text x="34" y="25" font-size="11.5" font-weight="700" font-family="'Ma Shan Zheng','KaiTi',cursive">动态密钥生成</text>
+            <text x="34" y="38" font-size="9" fill="#5a6678">K = H(I, S, T)</text>
+          </g>
+          <g class="arch-mod" transform="translate(360,180)">
+            <g filter="url(#rgh)"><rect width="180" height="44" rx="8" fill="#ffd7e2" stroke="#2e3b4e" stroke-width="2"/></g>
+            <path d="M8 14 Q12 10 16 14 Q20 18 8 22 Q12 18 16 14" transform="translate(10,11) scale(1.4)" fill="#e0564f"/>
+            <text x="34" y="25" font-size="11.5" font-weight="700" font-family="'Ma Shan Zheng','KaiTi',cursive">自适应编码</text>
+            <text x="34" y="38" font-size="9" fill="#5a6678">Huffman / RS 动态选择</text>
+          </g>
+          <g class="arch-mod" transform="translate(360,260)">
+            <g filter="url(#rgh)"><rect width="180" height="44" rx="8" fill="#cde6ff" stroke="#2e3b4e" stroke-width="2"/></g>
+            <path d="M8 14 Q12 10 16 14 Q20 18 8 22 Q12 18 16 14" transform="translate(10,11) scale(1.4)" fill="#e0564f"/>
+            <text x="34" y="25" font-size="11.5" font-weight="700" font-family="'Ma Shan Zheng','KaiTi',cursive">多路径传输管理</text>
+            <text x="34" y="38" font-size="9" fill="#5a6678">路径切换 · 负载均衡</text>
+          </g>
+          <g class="arch-mod" transform="translate(360,340)">
+            <g filter="url(#rgh)"><rect width="180" height="44" rx="8" fill="#d3efd7" stroke="#2e3b4e" stroke-width="2"/></g>
+            <path d="M8 14 Q12 10 16 14 Q20 18 8 22 Q12 18 16 14" transform="translate(10,11) scale(1.4)" fill="#e0564f"/>
+            <text x="34" y="25" font-size="11.5" font-weight="700" font-family="'Ma Shan Zheng','KaiTi',cursive">完整性校验</text>
+            <text x="34" y="38" font-size="9" fill="#5a6678">哈希对比 · 损坏检测</text>
+          </g>
+          <g class="arch-mod" transform="translate(360,420)">
+            <g filter="url(#rgh)"><rect width="180" height="44" rx="8" fill="#e7dcfa" stroke="#2e3b4e" stroke-width="2"/></g>
+            <path d="M8 14 Q12 10 16 14 Q20 18 8 22 Q12 18 16 14" transform="translate(10,11) scale(1.4)" fill="#e0564f"/>
+            <text x="34" y="25" font-size="11.5" font-weight="700" font-family="'Ma Shan Zheng','KaiTi',cursive">数据恢复</text>
+            <text x="34" y="38" font-size="9" fill="#5a6678">排序 · 解密 · 格式还原</text>
+          </g>
+
+          <!-- 连线（手绘曲线 + 手绘箭头，终点精确落在目标边缘） -->
+          <g stroke="#2e3b4e" stroke-width="2" fill="none" stroke-linecap="round" filter="url(#rgh)">
+            <!-- 发送端 → 模块1 / 模块2 -->
+            <path d="M330 148 Q 344 120 360 122" marker-end="url(#arch-arrow)"/>
+            <path d="M330 148 Q 344 190 360 202" marker-end="url(#arch-arrow)"/>
+            <!-- 模块1-5 → 接收端左边缘（x=570，均匀分布） -->
+            <path d="M540 122 Q 556 220 570 330" marker-end="url(#arch-arrow)"/>
+            <path d="M540 202 Q 558 262 570 341" marker-end="url(#arch-arrow)"/>
+            <path d="M540 282 Q 560 304 570 352" marker-end="url(#arch-arrow)"/>
+            <path d="M540 362 Q 560 362 570 363" marker-end="url(#arch-arrow)"/>
+            <path d="M540 442 Q 558 402 570 374" marker-end="url(#arch-arrow)"/>
+          </g>
+        </svg>
+    </div>
+
+    <!-- 段 2 · 七大功能模块 -->
+    <div class="seg reveal"><span class="seg-no">2</span><span class="seg-title">七大功能模块</span><span class="seg-line" aria-hidden="true"></span></div>
+    <div class="arch-cards reveal" style="--reveal-i:1">
+      <div class="arch-item"><span class="arch-chip">01</span><strong>数据发送模块</strong><p>数据预处理、数据编码与传输</p></div>
+      <div class="arch-item"><span class="arch-chip">02</span><strong>数据接收模块</strong><p>数据接收与恢复</p></div>
+      <div class="arch-item"><span class="arch-chip">03</span><strong>动态密钥生成模块</strong><p>根据数据重要性和传输环境生成加密密钥</p></div>
+      <div class="arch-item"><span class="arch-chip">04</span><strong>自适应编码模块</strong><p>根据网络状况动态选择编码算法</p></div>
+      <div class="arch-item"><span class="arch-chip">05</span><strong>多路径传输管理模块</strong><p>管理多路径传输，实现路径切换和负载均衡</p></div>
+      <div class="arch-item"><span class="arch-chip">06</span><strong>完整性校验模块</strong><p>对接收到的数据块进行完整性校验</p></div>
+      <div class="arch-item"><span class="arch-chip">07</span><strong>数据恢复模块</strong><p>对校验通过的数据块进行排序、解密和格式还原</p></div>
+    </div>
+
+    <!-- 段 3 · 核心算法 · 数学化表达 -->
+    <div class="seg reveal"><span class="seg-no">3</span><span class="seg-title">核心算法 · 数学化表达</span><span class="seg-line" aria-hidden="true"></span></div>
+    <div class="algo-grid reveal" style="--reveal-i:1">
+      <article class="card algo-card"><span class="algo-id">A1</span><h3>动态密钥生成</h3><div class="formula">K = H(I, S, T)</div><p>I ∈ [1,5] 数据重要性；S 网络安全性综合指标；T 时间戳。达到次数 N 或间隔 Δt 自动更新。</p></article>
+      <article class="card algo-card"><span class="algo-id">A2</span><h3>AES 数据加密</h3><div class="formula">C = E(K, D<sub>json</sub>)</div><p>E 为加密函数，D<sub>json</sub> 为标准化明文，K 为动态密钥，C 为加密数据包。</p></article>
+      <article class="card algo-card"><span class="algo-id">A3</span><h3>Huffman 高效编码</h3><div class="formula">L<sub>2</sub> = L<sub>1</sub> × r<sub>1</sub></div><p>带宽充足且丢包率低时采用，r<sub>1</sub> 为压缩率，L<sub>1</sub>/L<sub>2</sub> 为编解码前后长度。</p></article>
+      <article class="card algo-card"><span class="algo-id">A4</span><h3>RS 容错编码</h3><div class="formula">n<sub>total</sub> = n<sub>d</sub> + n<sub>r</sub></div><p>网络状况较差时采用，n<sub>r</sub> 个冗余符号，丢失不超过 n<sub>r</sub>/2 个符号即可恢复。</p></article>
+      <article class="card algo-card"><span class="algo-id">A5</span><h3>数据分块</h3><div class="formula">Σ s<sub>i</sub> = |P|</div><p>编码后数据包 P 分割为 {B<sub>1</sub>…B<sub>n</sub>}，每块携带唯一 ID 与序列号 SN。</p></article>
+      <article class="card algo-card"><span class="algo-id">A6</span><h3>多路径概率调度</h3><div class="formula">Σ p<sub>ij</sub> = 1</div><p>数据块 B<sub>i</sub> 选择路径 Path<sub>j</sub> 的概率为 p<sub>ij</sub>；故障切换：p<sub>il</sub> += Δp，p<sub>ik</sub> −= Δp。</p></article>
+      <article class="card algo-card"><span class="algo-id">A7</span><h3>路径故障判定</h3><div class="formula">D<sub>k</sub> &gt; D<sub>th</sub> 或 T<sub>k</sub> &lt; T<sub>th</sub></div><p>监测路径延迟 D<sub>k</sub> 与吞吐量 T<sub>k</sub>，超过设定阈值即判定故障或拥塞。</p></article>
+      <article class="card algo-card"><span class="algo-id">A8</span><h3>完整性哈希校验</h3><div class="formula">H<sub>received</sub> ≟ H<sub>original</sub></div><p>接收端重算数据块哈希，与发送端附带原始哈希对比，相等则完整，否则判定损坏。</p></article>
+      <article class="card algo-card"><span class="algo-id">A9</span><h3>排序重组与解密</h3><div class="formula">P<sub>recovered</sub> = Sort({B<sub>i</sub> | SN<sub>i</sub>})<br>D<sub>recovered</sub> = D(K, P<sub>recovered</sub>)</div><p>按序列号排序恢复数据包，使用对应密钥解密还原原始数据。</p></article>
+      <article class="card algo-card"><span class="algo-id">A10</span><h3>格式还原</h3><div class="formula">D<sub>final</sub> = f<sub>restore</sub>(D<sub>recovered</sub>)</div><p>将解密后的数据转换回原始格式，供用户使用。</p></article>
+      <article class="card algo-card"><span class="algo-id">A11</span><h3>超时重传</h3><div class="formula">T<sub>timeout</sub> = α · RTT</div><p>α 为调整系数（可取 1.5），RTT 为网络往返时间；超时未收到即标记丢失并请求重传。</p></article>
+      <article class="card algo-card"><span class="algo-id">A12</span><h3>异常处理优先级</h3><div class="formula">丢失 &gt; 解密失败 &gt; 还原失败</div><p>错误报告按优先级处理，设置最大重试次数，避免无限重传，超限后终止并上报高层。</p></article>
+    </div>
+  </div>
+</section>
+</main>
+
+<script src="js/huffman.js?v=20250901a"></script>
+<script src="js/rscode.js?v=20250901a"></script>
+<script src="js/engine.js?v=20250901a"></script>
+<script src="js/viz.js?v=20250901a"></script>
+<script src="js/app.js?v=20250901a"></script>
+</body>
+</html>
