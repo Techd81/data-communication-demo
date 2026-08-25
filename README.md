@@ -63,6 +63,26 @@ T_timeout = α × RTT = 75ms
 - 分块守恒：`Σs_i = |P|`
 - 按序列号排序重组数据包，解密 + JSON 还原输出最终数据
 
+## 界面预览
+
+**系统架构**
+
+![系统架构](演示系统/screenshots/architecture.png)
+
+<details>
+<summary>🖥️ 桌面端整页</summary>
+
+![桌面端](演示系统/screenshots/desktop.png)
+
+</details>
+
+<details>
+<summary>📱 移动端整页</summary>
+
+![移动端](演示系统/screenshots/mobile.png)
+
+</details>
+
 ## 快速开始
 
 无需构建工具，任意静态服务器即可运行：
@@ -82,6 +102,7 @@ python -m http.server 8747 --bind 127.0.0.1
 ├── 演示系统/         交互式演示系统（核心代码）
 │   ├── index.html    页面骨架（全流程板块 + 手绘 SVG 滤镜）
 │   ├── css/          手绘涂鸦风格样式
+│   ├── screenshots/  界面预览截图
 │   └── js/
 │       ├── huffman.js  Huffman 编码/解码
 │       ├── rscode.js   RS 纠删码（GF(256)）
